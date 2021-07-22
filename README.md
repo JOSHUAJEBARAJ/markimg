@@ -1,7 +1,7 @@
 
 # MarkImg
 
-Tool to convert the Image into base64 format to use in `Markdown` 
+Tool to convert the Image into base64 format to use in `Markdown` and copy into the clipboard
 
 
 ## Installation
