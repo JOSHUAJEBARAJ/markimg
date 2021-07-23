@@ -12,36 +12,50 @@ import (
 
 func main() {
 	// flag
-	filename := flag.String("i", "", "file location of the image")
+	var filename string
+	flag.StringVar(&filename, "i", "", "file location of the image")
 
 	flag.Parse()
 
-	if *filename == "" {
-
+	if filename == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
 
 	// reading the file
-	imgFile, err := os.Open(*filename)
+	imageBase64Str, err := readFile(filename)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err.Error())
 		os.Exit(1)
 	}
+
+	// converting the image
+
+	result := fmt.Sprintf("![Image](data:image/png;base64,%s)", imageBase64Str)
+
+	err = clipboard.WriteAll(result)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+}
+
+func readFile(filename string) (string, error) {
+	imgFile, err := os.Open(filename)
+	if err != nil {
+		return "", err
+	}
 	defer imgFile.Close()
+
 	fInfo, _ := imgFile.Stat()
-	var size int64 = fInfo.Size()
+	var size = fInfo.Size()
 	buf := make([]byte, size)
 
 	fReader := bufio.NewReader(imgFile)
-	fReader.Read(buf)
+	_, err = fReader.Read(buf)
+	if err != nil {
+		return "", err
+	}
 
-	imgBase64Str := base64.StdEncoding.EncodeToString(buf)
-
-	// converting the image
-	first := "![Image](data:image/png;base64,"
-	middle := imgBase64Str
-	last := ")"
-	result := first + middle + last
-	clipboard.WriteAll(result)
+	return base64.StdEncoding.EncodeToString(buf), nil
 }
