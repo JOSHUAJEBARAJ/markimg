@@ -1,16 +1,14 @@
 
 # MarkImg
 
-Tool to convert the Image into base64 format to use in `Markdown` and copy into the clipboard
-
+Tool to convert the Image into base64 format to use in `Markdown` and copy the `base64` format automatically into clipboard
 
 ## Installation
 
-Dowload the `pre-build` binary from the release page [here]() and put it in the path 
+Dowload the `pre-build` binary from the release page [here](https://github.com/JOSHUAJEBARAJ/markimg/releases/tag/0.1) and put it in the path 
 
 
-To build the binary in the local environment use the 
-
+To build it locally
 ```bash
   git clone https://github.com/JOSHUAJEBARAJ/markimg.git
   cd markimg
